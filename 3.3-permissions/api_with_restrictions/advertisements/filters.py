@@ -4,9 +4,7 @@ from .models import Advertisement
 
 
 class AdvertisementFilter(filters.FilterSet):
-    """Фильтры для объявлений."""
 
-    # TODO: задайте требуемые фильтры
     created_at = filters.DateFromToRangeFilter()
     updated_at = filters.DateFromToRangeFilter()
 

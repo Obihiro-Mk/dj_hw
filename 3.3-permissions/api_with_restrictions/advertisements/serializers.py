@@ -6,7 +6,6 @@ from .models import Advertisement
 
 
 class UserSerializer(serializers.ModelSerializer):
-    """Serializer для пользователя."""
 
     class Meta:
         model = User
@@ -15,7 +14,6 @@ class UserSerializer(serializers.ModelSerializer):
 
 
 class AdvertisementSerializer(serializers.ModelSerializer):
-    """Serializer для объявления."""
 
     creator = UserSerializer(
         read_only=True,
@@ -32,6 +30,6 @@ class AdvertisementSerializer(serializers.ModelSerializer):
 
     def validate(self, data):
         quantity = len(Advertisement.objects.filter(status='OPEN').filter(creator=self.context['request'].user))
-        if quantity >= 10 and self.context['view'].action == 'create':
+        if quantity >= 10 and (self.context['view'].action == 'create' or data.get('status') == 'OPEN'):
             raise ValidationError('Превышено максимальное количество объявлений')
         return data
